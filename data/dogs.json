@@ -35,5 +35,5 @@
         "location": { "lat": 32.109333, "lng": 34.855550 },
         "profileImg": "",
         "notifications": [{ "_id": "1212", "text": "blalbla", "senderId": 1235 }]
-    },
+    }
 ]
