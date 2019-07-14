@@ -74,10 +74,11 @@ router.post('/',requireAuth, (req, res) => {
 
 //login
 
-router.post('/login', (req, res) => {
+router.post('/', (req, res) => {
     const user = req.body; 
     dogService.logIn(user)
         .then(user => {
+            console.log('This is backend user after login', user)
                 req.session.loggedinUser = user
                 res.json(user)
         })
