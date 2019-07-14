@@ -51,7 +51,8 @@ router.delete('/:id',requireAdmin, (req, res) => {
 
 // dog Edit
 
-router.put('/:id', requireAuth, (req, res) => {
+router.put('/edit/:id', requireAuth, (req, res) => {
+    console.log('serverrrrrrrrrr')
     const dog = req.body;
     dogService.update(dog)
         .then(dog => res.json(dog))
@@ -62,7 +63,7 @@ router.put('/:id', requireAuth, (req, res) => {
 
  // dog Add
 
-router.post('/',requireAuth, (req, res) => {
+router.post('/add',requireAuth, (req, res) => {
     const dog= req.body;
     console.log('in rote', dog)
     dogService.add(dog)
@@ -74,10 +75,11 @@ router.post('/',requireAuth, (req, res) => {
 
 //login
 
-router.post('/login', (req, res) => {
+router.post('/', (req, res) => {
     const user = req.body; 
     dogService.logIn(user)
         .then(user => {
+            console.log('This is backend user after login', user)
                 req.session.loggedinUser = user
                 res.json(user)
         })
