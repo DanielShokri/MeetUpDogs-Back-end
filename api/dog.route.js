@@ -75,25 +75,28 @@ router.post('/add', requireAuth, (req, res) => {
 
 router.post('/', (req, res) => {
     const user = req.body;
-    dogService.logIn(user)
+   return dogService.logIn(user)
         .then(currUser => {
             console.log('This is backend user after login', currUser)
             req.session.loggedinUser = currUser
             res.json(currUser)
         })
         .catch(err => {
-            // console.log('error is',err);
-            res.status(401).send('Not Authorized')
-        })
+            console.log('cant login in route',err);
+            res.status(404).send()
+        }) 
 })
 
 //signup
 router.post('/signup', (req, res) => {
     const user = req.body;
+    console.log('this is the backend user regstirer', user)
     dogService.add(user)
         .then(userWithId => res.json(userWithId))
-
-    res.end('DONE')
+        .catch(err => {
+            // console.log('error i s',err);
+            res.status(401).send('Not Authorized')
+        })
 })
 
 //logout
