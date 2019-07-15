@@ -15,10 +15,10 @@ router.get('/getPos', async(req, res) => {
     res.json(placesResult.data.results)
 })
 
-// router.get('/getPhoto', async(req, res) => {
-//     const idan = req.query;
-//     console.log('test', idan)
-//     var placesResult = await axios.get(`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${idan.ref}&key=AIzaSyCrVxVPta_TOsFatlYL7vOx_stAJNlV8ws`)
-//     console.log(placesResult.data.)
-//     res.json(placesResult.data)
-// })
+router.get('/getDistance', async(req, res) => {
+    const distance = req.query;
+    console.log(distance)
+    var placesResult = await axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${distance.dist}&destinations=${distance.userdist}&key=AIzaSyCrVxVPta_TOsFatlYL7vOx_stAJNlV8ws`)
+    console.log(placesResult.data.rows[0])
+    res.json(placesResult.data.rows[0])
+})
