@@ -80,17 +80,19 @@ async function add(dog) {
 } 
 
 
-async function logIn(curruser) {
+async function logIn(currUser) {
+    console.log('This is backendddd user service', currUser)
     const collection = await dbService.getCollection('dog')
     try {
-        const user = await collection.find({ $and: [{name:curruser.name },{password:curruser.password}] }).toArray();
-           if(user.length) {
+        const user = await collection.findOne({ userName: currUser.name }, { password: currUser.pass });
+        console.log('user before error', user)
+           if(user) {
                return user
            }
-           throw new Error
+          else throw new Error
 
     } catch (err) {
-        console.log(err)
+        // console.log(err)
         console.log(`ERROR: cannot login`)
         throw err;
     }

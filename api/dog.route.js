@@ -38,13 +38,13 @@ router.get('/:id', requireAuth, (req, res) => {
 
 // dog Delete
 
-router.delete('/:id',requireAdmin, (req, res) => {
+router.delete('/:id', requireAdmin, (req, res) => {
     const dogId = req.params.id
     dogService.remove(dogId)
         .then(() => {
             res.json({})
         })
-        .catch(()=>{
+        .catch(() => {
             res.status(500).send('Could Not Delete')
         })
 })
@@ -52,23 +52,21 @@ router.delete('/:id',requireAdmin, (req, res) => {
 // dog Edit
 
 router.put('/edit/:id', requireAuth, (req, res) => {
-    console.log('serverrrrrrrrrr')
     const dog = req.body;
     dogService.update(dog)
         .then(dog => res.json(dog))
-        .catch(()=>{
+        .catch(() => {
             res.status(500).send('Could Not Edit')
         })
 })
 
- // dog Add
+// dog Add
 
-router.post('/add',requireAuth, (req, res) => {
-    const dog= req.body;
-    console.log('in rote', dog)
+router.post('/add', requireAuth, (req, res) => {
+    const dog = req.body;
     dogService.add(dog)
         .then(dogWithId => res.json(dogWithId))
-        .catch(()=>{
+        .catch(() => {
             res.status(500).send('Could Not Add')
         })
 })
@@ -76,12 +74,12 @@ router.post('/add',requireAuth, (req, res) => {
 //login
 
 router.post('/', (req, res) => {
-    const user = req.body; 
+    const user = req.body;
     dogService.logIn(user)
-        .then(user => {
-            console.log('This is backend user after login', user)
-                req.session.loggedinUser = user
-                res.json(user)
+        .then(currUser => {
+            console.log('This is backend user after login', currUser)
+            req.session.loggedinUser = currUser
+            res.json(currUser)
         })
         .catch(err => {
             // console.log('error is',err);
@@ -91,7 +89,7 @@ router.post('/', (req, res) => {
 
 //signup
 router.post('/signup', (req, res) => {
-    const user= req.body;
+    const user = req.body;
     dogService.add(user)
         .then(userWithId => res.json(userWithId))
 

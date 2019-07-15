@@ -18,7 +18,8 @@ app.use(session({
     saveUninitialized: true,
     cookie: {
         secure: false
-    }
+    },
+    maxAge: 60000 * 6000000
 }))
 const cors = require('cors')
 app.use(cors({
