@@ -27,7 +27,8 @@ app.use(session({
     saveUninitialized: true,
     cookie: {
         secure: false
-    }
+    },
+    maxAge: 60000 * 6000000
 }))
 
 // app.use(function(req, res, next) {

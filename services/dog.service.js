@@ -23,8 +23,8 @@ async function query(filterBy = {}) {
 
     const collection = await dbService.getCollection('dog')
     try {
-        const dogs = await collection.find(criteria ).toArray();
-        
+        const dogs = await collection.find(criteria).toArray();
+
         return dogs
     } catch (err) {
         console.log('ERROR: cannot find dogs')
@@ -35,7 +35,7 @@ async function query(filterBy = {}) {
 async function getById(dogId) {
     const collection = await dbService.getCollection('dog')
     try {
-        const dog = await collection.findOne({"_id":ObjectId(dogId)})
+        const dog = await collection.findOne({ "_id": ObjectId(dogId) })
         return dog
     } catch (err) {
         console.log(`ERROR: cannot find dog ${dogId}`)
@@ -47,7 +47,7 @@ async function getById(dogId) {
 async function remove(dogId) {
     const collection = await dbService.getCollection('dog')
     try {
-        await collection.remove({"_id":ObjectId(dogId)})
+        await collection.remove({ "_id": ObjectId(dogId) })
     } catch (err) {
         console.log(`ERROR: cannot remove dog ${dogId}`)
         throw err;
@@ -60,7 +60,7 @@ async function update(dog) {
         const strId = dog._id
         const _id = new ObjectId(strId)
         dog._id = _id
-        await collection.updateOne({_id}, {$set : dog})
+        await collection.updateOne({ _id }, { $set: dog })
         return dog
     } catch (err) {
         console.log(`ERROR: cannot update dog ${dog._id}`)
@@ -68,30 +68,31 @@ async function update(dog) {
     }
 }
 
-async function add(dog) {
+async function add(newUser) {
+    console.log('this is the user we got!!!', newUser)
     const collection = await dbService.getCollection('dog')
     try {
-        await collection.insertOne(dog);
-        return dog;
+        await collection.insertOne(newUser);
+        return newUser;
     } catch (err) {
         console.log(`ERROR: cannot insert dog`)
         throw err;
     }
-} 
+}
 
 
-async function logIn(curruser) {
+async function logIn(currUser) {
     const collection = await dbService.getCollection('dog')
     try {
-        const user = await collection.find({ $and: [{name:curruser.name },{password:curruser.password}] }).toArray();
-           if(user.length) {
-               return user
-           }
-           throw new Error
-
+        const user = await collection.find({ $and: [{ userName: currUser.name }, { password: currUser.pass  }] }).toArray();
+        // ({ userName: currUser.name }, { password: currUser.pass })
+        if (user) {
+            return user
+        }
+        else return Promise.reject('Cant find the user')
     } catch (err) {
-        console.log(err)
+        console.log(err,'in back service')
         console.log(`ERROR: cannot login`)
-        throw err;
+       return Promise.reject('cant login')
     }
 }
