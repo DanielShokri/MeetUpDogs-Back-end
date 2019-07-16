@@ -16,13 +16,14 @@ async function query(filterBy = {}) {
     
     const criteria = {};
     if (filterBy.txt) {
-        criteria.name = filterBy.txt
+        const regex = new RegExp(filterBy.txt)
+        criteria.userName = { $regex: regex }
     }
-
+    // console.log('this is criteria', criteria)
     const collection = await dbService.getCollection('dog')
     try {
         const dogs = await collection.find(criteria).toArray();
-
+        console.log('This is filter dog', dogs)
         return dogs
     } catch (err) {
         console.log('ERROR: cannot find dogs')

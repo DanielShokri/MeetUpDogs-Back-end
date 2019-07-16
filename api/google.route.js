@@ -17,8 +17,7 @@ router.get('/getPos', async(req, res) => {
 
 router.get('/getDistance', async(req, res) => {
     const distance = req.query;
-    console.log(distance)
     var placesResult = await axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${distance.dist}&destinations=${distance.userdist}&key=AIzaSyCrVxVPta_TOsFatlYL7vOx_stAJNlV8ws`)
-    console.log(placesResult.data.rows[0])
+    // console.log(placesResult.data.rows[0])
     res.json(placesResult.data.rows[0])
 })

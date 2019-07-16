@@ -19,9 +19,8 @@ function requireAdmin(req, res, next) {
 
 //dogs List
 router.get('/', (req, res) => {
-    const dog = req.body;
-    console.log('This is BED', dog)
-    dogService.query()
+    const filterBy = req.query
+    dogService.query(filterBy)
         .then(dogs => {
             res.json(dogs)
         })
@@ -91,7 +90,6 @@ router.post('/', (req, res) => {
     const user = req.body;
     return dogService.logIn(user)
         .then(currUser => {
-            console.log('This is backend user after login', currUser)
             req.session.loggedinUser = currUser
             res.json(currUser)
         })
@@ -104,7 +102,6 @@ router.post('/', (req, res) => {
 //signup
 router.post('/signup', (req, res) => {
     const user = req.body;
-    console.log('this is the backend user regstirer', user)
     dogService.add(user)
         .then(userWithId => res.json(userWithId))
         .catch(err => {
