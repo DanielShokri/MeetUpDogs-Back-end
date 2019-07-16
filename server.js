@@ -28,8 +28,8 @@ app.use(session({
     cookie: {
         secure: false
     },
-    maxAge: 60000 * 6000000
 }))
+
 
 // app.use(function(req, res, next) {
 //     res.header('Access-Control-Allow-Origin', 'http://localhost:8080');

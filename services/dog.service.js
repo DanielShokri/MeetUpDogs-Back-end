@@ -10,10 +10,11 @@ module.exports = {
     add,
     update,
     logIn,
+    updateFriendReq,
 }
 
 async function query(filterBy = {}) {
-    
+
     const criteria = {};
     if (filterBy.txt) {
         criteria.name = filterBy.txt
@@ -66,6 +67,27 @@ async function update(dog) {
     }
 }
 
+async function updateFriendReq(currUser, { dogId }) {
+    console.log('dog', dogId)
+    console.log('currUser', currUser)
+    const collection = await dbService.getCollection('dog')
+    try {
+        const currUser_id = new ObjectId(currUser._id)
+        console.log('jjjjjjjjjjj', currUser_id)
+        await collection.updateOne({ _id: currUser_id }, { $push: { sentFriendsReq: dogId } })
+        const id = new ObjectId(dogId)
+        await collection.updateOne({ _id: id }, { $push: { gotFriendsReq: { userId: currUser._id, userImg: currUser.profileImg, userName: currUser.owner.fullName } } })
+        return dogId
+    } catch (err) {
+        console.log(`ERROR: cannot update dog ${dogId}`)
+        throw err;
+    }
+}
+
+
+
+
+
 async function add(newUser) {
     console.log('this is the user we got!!!', newUser)
     const collection = await dbService.getCollection('dog')
@@ -86,8 +108,7 @@ async function logIn(currUser) {
         // ({ userName: currUser.name }, { password: currUser.pass })
         if (user) {
             return user
-        }
-        else return Promise.reject('Cant find the user')
+        } else return Promise.reject('Cant find the user')
     } catch (err) {
         console.log(err, 'in back service')
         console.log(`ERROR: cannot login`)
