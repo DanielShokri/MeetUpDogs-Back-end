@@ -1,4 +1,3 @@
-
 const MongoClient = require('mongodb').MongoClient;
 
 module.exports = {
@@ -12,7 +11,7 @@ module.exports = {
 //     : 'mongodb://localhost:27017';
 
 
-const url = 'mongodb://localhost:27017';
+const url = 'mongodb+srv://idan:saribeni12@cluster0-cquxv.mongodb.net/test?retryWrites=true&w=majority';
 
 // const url ='mongodb+srv://chen:eLrjNHFsEHNy87k@cluster0-xnd7v.mongodb.net/test?retryWrites=true&w=majority'
 
@@ -25,13 +24,13 @@ var dbConn = null;
 async function connect() {
     if (dbConn) return dbConn;
     try {
-        const client = await MongoClient.connect(url, {useNewUrlParser: true});
+        const client = await MongoClient.connect(url, { useNewUrlParser: true });
         const db = client.db(dbName);
         // console.log(db);
-        
+
         dbConn = db;
         return db;
-    } catch(err) {
+    } catch (err) {
         console.log('Cannot Connect to DB', err)
         throw err;
     }
@@ -40,6 +39,6 @@ async function connect() {
 async function getCollection(collectionName) {
     const db = await connect()
 
-    var colaction= db.collection(collectionName);
+    var colaction = db.collection(collectionName);
     return colaction
 }
