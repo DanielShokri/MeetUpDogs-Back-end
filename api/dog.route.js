@@ -75,14 +75,15 @@ router.post('/add', requireAuth, (req, res) => {
 
 //send friend request
 
-// router.post('/sendFriendReq', requireAuth, (req, res) => {
-//     const dogId = req.body;
-//     dogService.add(dog)
-//         .then(dogWithId => res.json(dogWithId))
-//         .catch(() => {
-//             res.status(500).send('Could Not Add')
-//         })
-// })
+router.put('/sendFriendReq', requireAuth, (req, res) => {
+    const dogId = req.body;
+    const user = req.session.loggedinUser[0];
+    dogService.updateFriendReq(user, dogId)
+        .then(dogId => res.json(dogId))
+        .catch(() => {
+            res.status(500).send('Could Not Add')
+        })
+})
 
 //login
 

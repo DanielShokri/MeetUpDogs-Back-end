@@ -17,7 +17,7 @@ app.use(bodyParser.json())
 app.use(cookieParser());
 
 app.use(cors({
-    origin: ['http://localhost:8080'],
+    origin: ['http://localhost:8080','http://localhost:8081'],
     credentials: true
 }));
 
@@ -28,8 +28,8 @@ app.use(session({
     cookie: {
         secure: false
     },
-    maxAge: 60000 * 6000000
 }))
+
 
 // app.use(function(req, res, next) {
 //     res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
