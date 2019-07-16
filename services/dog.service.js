@@ -13,13 +13,11 @@ module.exports = {
 }
 
 async function query(filterBy = {}) {
+    
     const criteria = {};
-    // if (filterBy.txt) {
-    //     criteria.name = filterBy.txt
-    // }
-    // if (filterBy.minBalance) {
-    //     criteria.balance = {$gte : filterBy.minBalance}
-    // }criteria
+    if (filterBy.txt) {
+        criteria.name = filterBy.txt
+    }
 
     const collection = await dbService.getCollection('dog')
     try {
@@ -84,15 +82,15 @@ async function add(newUser) {
 async function logIn(currUser) {
     const collection = await dbService.getCollection('dog')
     try {
-        const user = await collection.find({ $and: [{ userName: currUser.name }, { password: currUser.pass  }] }).toArray();
+        const user = await collection.find({ $and: [{ userName: currUser.name }, { password: currUser.pass }] }).toArray();
         // ({ userName: currUser.name }, { password: currUser.pass })
         if (user) {
             return user
         }
         else return Promise.reject('Cant find the user')
     } catch (err) {
-        console.log(err,'in back service')
+        console.log(err, 'in back service')
         console.log(`ERROR: cannot login`)
-       return Promise.reject('cant login')
+        return Promise.reject('cant login')
     }
 }

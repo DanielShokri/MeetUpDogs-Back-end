@@ -19,6 +19,8 @@ function requireAdmin(req, res, next) {
 
 //dogs List
 router.get('/', (req, res) => {
+    const dog = req.body;
+    console.log('This is BED', dog)
     dogService.query()
         .then(dogs => {
             res.json(dogs)
