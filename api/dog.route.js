@@ -9,6 +9,7 @@ function requireAuth(req, res, next) {
     // if (!user) return res.status(401).send('Unauthenticated');
     next();
 }
+
 function requireAdmin(req, res, next) {
     // const user = req.session.loggedinUser
     // if (!user) return res.status(401).send('Unauthenticated');
@@ -71,20 +72,31 @@ router.post('/add', requireAuth, (req, res) => {
         })
 })
 
+//send friend request
+
+// router.post('/sendFriendReq', requireAuth, (req, res) => {
+//     const dogId = req.body;
+//     dogService.add(dog)
+//         .then(dogWithId => res.json(dogWithId))
+//         .catch(() => {
+//             res.status(500).send('Could Not Add')
+//         })
+// })
+
 //login
 
 router.post('/', (req, res) => {
     const user = req.body;
-   return dogService.logIn(user)
+    return dogService.logIn(user)
         .then(currUser => {
             console.log('This is backend user after login', currUser)
             req.session.loggedinUser = currUser
             res.json(currUser)
         })
         .catch(err => {
-            console.log('cant login in route',err);
+            console.log('cant login in route', err);
             res.status(404).send()
-        }) 
+        })
 })
 
 //signup
