@@ -78,8 +78,6 @@ router.post('/add', requireAuth, (req, res) => {
 //send friend request and recieve the request
 
 router.put('/sendFriendReq', requireAuth, (req, res) => {
-    console.log('body!!!!!!!!!!!!!!!', req.body.user[0])
-
     const dogId = req.body.dogId;
     const user = req.body.user[0]
     dogService.updateFriendReq(user, dogId)
@@ -93,7 +91,7 @@ router.put('/sendFriendReq', requireAuth, (req, res) => {
 
 router.put('/makeFriendship', requireAuth, (req, res) => {
     const dog = req.body.dog;
-    const user = req.body.user;
+    const user = req.body.user[0];
     dogService.makeFriendShip(user, dog)
         .then(dog => res.json(dog))
         .catch(() => {
