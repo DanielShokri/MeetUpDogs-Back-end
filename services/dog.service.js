@@ -24,7 +24,6 @@ async function query(filterBy = {}) {
     const collection = await dbService.getCollection('dog')
     try {
         const dogs = await collection.find(criteria).toArray();
-        console.log('This is filter dog', dogs)
         return dogs
     } catch (err) {
         console.log('ERROR: cannot find dogs')
@@ -69,8 +68,6 @@ async function update(dog) {
 }
 
 async function updateFriendReq(currUser, { dogId }) {
-    console.log('dog', dogId)
-    console.log('currUser', currUser)
     const collection = await dbService.getCollection('dog')
     try {
         const currUser_id = new ObjectId(currUser._id)
@@ -90,7 +87,6 @@ async function updateFriendReq(currUser, { dogId }) {
 
 
 async function add(newUser) {
-    console.log('this is the user we got!!!', newUser)
     const collection = await dbService.getCollection('dog')
     try {
         await collection.insertOne(newUser);
