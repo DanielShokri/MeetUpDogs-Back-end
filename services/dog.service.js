@@ -68,13 +68,10 @@ async function update(dog) {
     }
 }
 
-async function updateFriendReq(currUser, { dogId }) {
-    console.log('dog', dogId)
-    console.log('currUser', currUser)
+async function updateFriendReq(currUser, dogId) {
     const collection = await dbService.getCollection('dog')
     try {
         const currUser_id = new ObjectId(currUser._id)
-        console.log('jjjjjjjjjjj', currUser_id)
         await collection.updateOne({ _id: currUser_id }, { $push: { sentFriendsReq: dogId } })
         const id = new ObjectId(dogId)
         await collection.updateOne({ _id: id }, { $push: { gotFriendsReq: { userId: currUser._id, userImg: currUser.profileImg, userName: currUser.owner.fullName } } })
@@ -85,12 +82,29 @@ async function updateFriendReq(currUser, { dogId }) {
     }
 }
 
+async function makeFriendShip(currUser, dog) {
+    const collection = await dbService.getCollection('dog')
+    try {
+        const currUser_id = new ObjectId(currUser._id)
+        await collection.updateOne({ _id: currUser_id }, { $push: { friends: dog } })
+        await collection.updateOne({ _id: currUser_id }, { $pull: { sentFriendsReq: dog._id } })
+        const id = new ObjectId(dog._id)
+        await collection.updateOne({ _id: id }, { $push: { friends: { userId: currUser._id, userImg: currUser.profileImg, userName: currUser.owner.fullName } } })
+        await collection.updateOne({ _id: id }, { $pull: { gotFriendsReq: { userId: currUser._id, userImg: currUser.profileImg, userName: currUser.owner.fullName } } })
+        return dog
+    } catch (err) {
+        console.log(`ERROR: cannot update dog ${dog._id}`)
+        throw err;
+    }
+}
+
+
+
 
 
 
 
 async function add(newUser) {
-    console.log('this is the user we got!!!', newUser)
     const collection = await dbService.getCollection('dog')
     try {
         await collection.insertOne(newUser);
