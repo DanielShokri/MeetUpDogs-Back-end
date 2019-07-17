@@ -10,7 +10,6 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const cors = require('cors')
 
-console.log('testing lla')
 
 app.use(express.static('public'))
 app.use(bodyParser.json())
