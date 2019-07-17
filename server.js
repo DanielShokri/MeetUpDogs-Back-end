@@ -10,14 +10,13 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const cors = require('cors')
 
-console.log('testing lla')
 
 app.use(express.static('public'))
 app.use(bodyParser.json())
 app.use(cookieParser());
 
 app.use(cors({
-    origin: ['http://localhost:8080','http://localhost:8081'],
+    origin: ['http://localhost:8080','http://localhost:8081','http://localhost:8082'],
     credentials: true
 }));
 
