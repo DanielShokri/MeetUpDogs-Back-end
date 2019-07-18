@@ -26,7 +26,6 @@ async function query(filterBy = {}) {
     const collection = await dbService.getCollection('dog')
     try {
         const dogs = await collection.find(criteria).toArray();
-        console.log('This is filter dog', dogs)
         return dogs
     } catch (err) {
         console.log('ERROR: cannot find dogs')

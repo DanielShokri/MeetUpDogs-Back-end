@@ -30,12 +30,6 @@ app.use(session({
 }))
 
 
-// app.use(function(req, res, next) {
-//     res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
-//     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-//     next();
-// });
-
 
 const dogRoute = require('./api/dog.route');
 app.use('/api/dog', dogRoute)
@@ -43,16 +37,14 @@ const googleRoute = require('./api/google.route');
 app.use('/api/google', googleRoute)
 
 
+const msgsDB = {};
 
+io.on('connection', function (socket) {
+  console.log('a user connected');
 
-// const msgsDB = {};
-
-// io.on('connection', function (socket) {
-//   console.log('a user connected');
-
-//   socket.on('disconnect', () => {
-//       console.log('user disconnected');
-//   });
+  socket.on('disconnect', () => {
+      console.log('user disconnected');
+  });
 
 //   socket.on('chat join', (toyId)=>{
 //       const msg = {from: 'System', txt: `blala Joined`}
@@ -68,7 +60,11 @@ app.use('/api/google', googleRoute)
 //       io.to(toyId).emit('chat newMsg', txt);
 //   });
 
-// });
+  socket.on('friend req' ,() =>{
+
+  })
+
+});
 
 
 app.get('/', (req, res) => res.send('Hello World!'))
