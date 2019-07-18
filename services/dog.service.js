@@ -13,6 +13,7 @@ module.exports = {
     updateFriendReq,
     makeFriendShip,
     rejectFriendShip,
+    updateLikes
 }
 
 async function query(filterBy = {}) {
@@ -81,6 +82,22 @@ async function updateFriendReq(currUser, dogId) {
         console.log(`ERROR: cannot update dog ${dogId}`)
         throw err;
     }
+}
+
+async function updateLikes(currUser, dogId) {
+    console.log('in server back user is', currUser , 'dog id', dogId)
+    const collection = await dbService.getCollection('dog')
+    try {
+        const currUser_id = new ObjectId(currUser._id)
+        await collection.updateOne({ _id: currUser_id }, { $push: { sentLikes: dogId } })
+        const id = new ObjectId(dogId)
+        await collection.updateOne({ _id: id }, { $push: { gotLikes: { userId: currUser._id, userImg: currUser.profileImg, userName: currUser.owner.fullName } } })
+        return dogId
+    } catch (err) {
+        console.log(`ERROR: cannot update dog ${dogId}`)
+        throw err;
+    }
+
 }
 
 async function makeFriendShip(currUser, dog) {
