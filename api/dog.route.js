@@ -91,7 +91,6 @@ router.put('/sendFriendReq', requireAuth, (req, res) => {
 router.put('/addLike', requireAuth, (req, res) => {
     const dogId = req.body.dogId;
     const user = req.body.user[0]
-    console.log('in server dog id', dogId, 'user', user)
     dogService.updateLikes(user, dogId)
         .then(dogId => res.json(dogId))
         .catch(() => {

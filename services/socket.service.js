@@ -9,6 +9,7 @@ var activeUsersCount = 0;
 function setup(http) {
     io = socketIO(http);
     io.on('connection', function (socket) {
+
         console.log('a user connected');
         var room;
         activeUsersCount++;
@@ -29,11 +30,17 @@ function setup(http) {
             io.to(room.id).emit('chat newMsg', msg);
         });
 
-        socket.on('friend req', (user) => {
-            console.log('This is freind req happed in back')
+        socket.on('user login', (userId) =>{
+            console.log('The user login is ', userId)
+            socket.join(userId);
+        })
+
+        socket.on('friend req', (user, currUserLogin) => {
+            // console.log('This is freind req happed in back',currUserLogin.owner.fullName)
             console.log('this is emit')
-            // console.log('this is the user',user)
-            socket.broadcast.emit('friend req sent', user);
+            
+            console.log('this is the user',user._id)
+            io.to(user._id).emit('friend req sent', currUserLogin.owner.fullName);
         })
 
     });
