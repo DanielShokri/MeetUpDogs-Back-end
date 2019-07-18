@@ -91,7 +91,7 @@ router.put('/sendFriendReq', requireAuth, (req, res) => {
 router.put('/addLike', requireAuth, (req, res) => {
     const dogId = req.body.dogId;
     const user = req.body.user[0]
-console.log( 'in server dog id', dogId,'user' , user)
+    console.log('in server dog id', dogId, 'user', user)
     dogService.updateLikes(user, dogId)
         .then(dogId => res.json(dogId))
         .catch(() => {
@@ -125,6 +125,17 @@ router.put('/rejectFriendship', requireAuth, (req, res) => {
         })
 })
 
+//remove frirndship
+
+router.put('/removeFriendship', requireAuth, (req, res) => {
+    const dogId = req.body.dogId;
+    const user = req.body.user[0];
+    dogService.removeFriendShip(user, dogId)
+        .then(dog => res.json(dog))
+        .catch(() => {
+            res.status(500).send('Could Not makeFriendShip')
+        })
+})
 
 
 
