@@ -99,6 +99,19 @@ router.put('/makeFriendship', requireAuth, (req, res) => {
         })
 })
 
+// reject friendship
+
+router.put('/rejectFriendship', requireAuth, (req, res) => {
+    const dog = req.body.dog;
+    const user = req.body.user[0];
+    dogService.rejectFriendShip(user, dog)
+        .then(dog => res.json(dog))
+        .catch(() => {
+            res.status(500).send('Could Not makeFriendShip')
+        })
+})
+
+
 
 
 
