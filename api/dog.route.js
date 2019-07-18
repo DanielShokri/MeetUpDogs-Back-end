@@ -38,6 +38,8 @@ router.get('/:id', requireAuth, (req, res) => {
 })
 
 
+
+
 // dog Delete
 
 router.delete('/:id', requireAdmin, (req, res) => {
@@ -73,17 +75,32 @@ router.post('/add', requireAuth, (req, res) => {
         })
 })
 
-//send friend request
+//send friend request and recieve the request
 
 router.put('/sendFriendReq', requireAuth, (req, res) => {
-    const dogId = req.body;
-    const user = req.session.loggedinUser[0];
+    const dogId = req.body.dogId;
+    const user = req.body.user[0]
     dogService.updateFriendReq(user, dogId)
         .then(dogId => res.json(dogId))
         .catch(() => {
-            res.status(500).send('Could Not Add')
+            res.status(500).send('Could Not send and recieve request')
         })
 })
+
+//make friendship 
+
+router.put('/makeFriendship', requireAuth, (req, res) => {
+    const dog = req.body.dog;
+    const user = req.body.user[0];
+    dogService.makeFriendShip(user, dog)
+        .then(dog => res.json(dog))
+        .catch(() => {
+            res.status(500).send('Could Not makeFriendShip')
+        })
+})
+
+
+
 
 //login
 
