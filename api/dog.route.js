@@ -87,6 +87,20 @@ router.put('/sendFriendReq', requireAuth, (req, res) => {
         })
 })
 
+//add like
+router.put('/addLike', requireAuth, (req, res) => {
+    const dogId = req.body.dogId;
+    const user = req.body.user[0]
+console.log( 'in server dog id', dogId,'user' , user)
+    dogService.updateLikes(user, dogId)
+        .then(dogId => res.json(dogId))
+        .catch(() => {
+            res.status(500).send('Could Not Like')
+        })
+})
+
+
+
 //make friendship 
 
 router.put('/makeFriendship', requireAuth, (req, res) => {
@@ -98,6 +112,19 @@ router.put('/makeFriendship', requireAuth, (req, res) => {
             res.status(500).send('Could Not makeFriendShip')
         })
 })
+
+// reject friendship
+
+router.put('/rejectFriendship', requireAuth, (req, res) => {
+    const dog = req.body.dog;
+    const user = req.body.user[0];
+    dogService.rejectFriendShip(user, dog)
+        .then(dog => res.json(dog))
+        .catch(() => {
+            res.status(500).send('Could Not makeFriendShip')
+        })
+})
+
 
 
 
