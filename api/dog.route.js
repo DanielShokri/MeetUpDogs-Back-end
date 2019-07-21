@@ -124,6 +124,17 @@ router.put('/rejectFriendship', requireAuth, (req, res) => {
         })
 })
 
+//remove frirndship
+
+router.put('/removeFriendship', requireAuth, (req, res) => {
+    const dogId = req.body.dogId;
+    const user = req.body.user[0];
+    dogService.removeFriendShip(user, dogId)
+        .then(dog => res.json(dog))
+        .catch(() => {
+            res.status(500).send('Could Not makeFriendShip')
+        })
+})
 
 
 

@@ -1,4 +1,3 @@
-
 const socketIO = require('socket.io');
 const roomService = require('./room-service');
 
@@ -8,7 +7,7 @@ const msgsDB = {};
 
 function setup(http) {
     io = socketIO(http);
-    io.on('connection', function (socket) {
+    io.on('connection', function(socket) {
 
         console.log('a user connected');
         activeUsersCount++;
