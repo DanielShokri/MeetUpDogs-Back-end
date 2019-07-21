@@ -30,7 +30,7 @@ function setup(http) {
             io.to(room.id).emit('chat newMsg', msg);
         });
 
-        socket.on('user login', (userId) =>{
+        socket.on('user login', (userId) => {
             console.log('The user login is ', userId)
             socket.join(userId);
         })
@@ -38,9 +38,14 @@ function setup(http) {
         socket.on('friend req', (user, currUserLogin) => {
             // console.log('This is freind req happed in back',currUserLogin.owner.fullName)
             console.log('this is emit')
-            
-            console.log('this is the user',user._id)
+
+            console.log('this is the user', user._id)
             io.to(user._id).emit('friend req sent', currUserLogin.owner.fullName);
+        })
+        socket.on('friend like', (user, currUserLogin) => {
+            // console.log('This is freind req happed in back',currUserLogin.owner.fullName)
+            console.log('this is the user', user._id)
+            io.to(user._id).emit('friend like sent', currUserLogin.owner.fullName);
         })
 
     });

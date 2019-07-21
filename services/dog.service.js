@@ -20,7 +20,7 @@ async function query(filterBy = {}) {
 
     const criteria = {};
     if (filterBy.txt) {
-        const regex = new RegExp(filterBy.txt)
+        const regex = new RegExp(filterBy.txt.toLowerCase(), 'i')
         criteria.userName = { $regex: regex }
     }
     // console.log('this is criteria', criteria)
