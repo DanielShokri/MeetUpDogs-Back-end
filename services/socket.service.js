@@ -1,4 +1,3 @@
-
 const socketIO = require('socket.io');
 // const io = require('socket.io')(http);
 // const roomService = require('./room-service');
@@ -8,7 +7,7 @@ var activeUsersCount = 0;
 
 function setup(http) {
     io = socketIO(http);
-    io.on('connection', function (socket) {
+    io.on('connection', function(socket) {
 
         console.log('a user connected');
         var room;
@@ -30,18 +29,31 @@ function setup(http) {
             io.to(room.id).emit('chat newMsg', msg);
         });
 
-        socket.on('user login', (userId) =>{
+        socket.on('user login', (userId) => {
             console.log('The user login is ', userId)
             socket.join(userId);
         })
 
+        // friend req
+
         socket.on('friend req', (user, currUserLogin) => {
             // console.log('This is freind req happed in back',currUserLogin.owner.fullName)
             console.log('this is emit')
-            
-            console.log('this is the user',user._id)
+
+            console.log('this is the user', user._id)
             io.to(user._id).emit('friend req sent', currUserLogin.owner.fullName);
         })
+
+        // likes 
+
+        socket.on('friend like', (user, currUserLogin) => {
+            // console.log('This is freind req happed in back',currUserLogin.owner.fullName)
+            console.log('this is emit')
+
+            console.log('this is the user', user._id)
+            io.to(user._id).emit('you got liked', currUserLogin.owner.fullName);
+        })
+
 
     });
 
