@@ -84,6 +84,7 @@ async function updateFriendReq(currUser, dogId) {
         console.log(`ERROR: cannot update dog ${dogId}`)
         throw err;
     }
+    
 }
 
 async function updateLikes(currUser, dogId) {
@@ -119,7 +120,6 @@ async function makeFriendShip(currUser, dog) {
 }
 
 async function rejectFriendShip(currUser, dog) {
-    console.log('dogdogdog', dog)
     const collection = await dbService.getCollection('dog')
     try {
         const currUser_id = new ObjectId(currUser._id)
@@ -134,7 +134,6 @@ async function rejectFriendShip(currUser, dog) {
 }
 
 async function removeFriendShip(currUser, dogId) {
-    console.log('dogdogdog', dogId)
     console.log('user', currUser.owner)
     const collection = await dbService.getCollection('dog')
     try {
