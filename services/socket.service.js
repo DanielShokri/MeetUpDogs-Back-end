@@ -1,67 +1,61 @@
 const socketIO = require('socket.io');
-// const io = require('socket.io')(http);
-// const roomService = require('./room-service');
+const roomService = require('./room-service');
 
 var io;
 var activeUsersCount = 0;
+const msgsDB = {};
 
 function setup(http) {
     io = socketIO(http);
     io.on('connection', function(socket) {
 
         console.log('a user connected');
-        var room;
         activeUsersCount++;
+        var room;
 
         socket.on('disconnect', () => {
             console.log('user disconnected');
             activeUsersCount--;
         });
 
-        socket.on('chat join', (user) => {
-            // room = roomService.placeInRoom(user)
-            console.log('Placed', user, 'in room:', room);
-            socket.join(room.id);
-        });
+        socket.on('test users chat', members => {
+            members.sort((a,b) => a.userName > b.userName? 1 : -1)
+            socket.join(members[0]._id + members[1]._id)
+            // console.log('JOINING',members[0]._id + members[1]._id)
+        })
 
-        socket.on('chat msg', (msg) => {
-            console.log('message: ' + msg);
-            io.to(room.id).emit('chat newMsg', msg);
+        socket.on('chat msg', ({members, msg}) =>  {
+            members.sort((a,b) => a.userName > b.userName? 1 : -1)
+            // if (msgsDB[userId]) msgsDB[userId].push(msg);
+            // else msgsDB[userId] = [];
+            io.to(members[0]._id + members[1]._id).emit('test got msg',msg)
+            // console.log('SENDING',members[0]._id + members[1]._id)
+        })
+
+        socket.on('user typing', ({members, user}) =>{
+            console.log(members,'this is soket memebers')
+            members.sort((a,b) => a.userName > b.userName? 1 : -1)
+            socket.join(members[0]._id + members[1]._id)
+            socket.broadcast.to(members[0]._id + members[1]._id).emit('user isTyping', `${user} is typing...`)
+        })
+
+        socket.on('chat notification', (senderUser, getUser) =>{
+            io.to(getUser._id).emit('chat notification sent', senderUser);
         });
 
         socket.on('user login', (userId) => {
-            console.log('The user login is ', userId)
             socket.join(userId);
-        })
-
-        // friend req
+        });
 
         socket.on('friend req', (user, currUserLogin) => {
-            // console.log('This is freind req happed in back',currUserLogin.owner.fullName)
-            console.log('this is emit')
-
-            console.log('this is the user', user._id)
             io.to(user._id).emit('friend req sent', currUserLogin.owner.fullName);
-        })
-
-        // likes 
+        });
 
         socket.on('friend like', (user, currUserLogin) => {
-            // console.log('This is freind req happed in back',currUserLogin.owner.fullName)
-            console.log('this is emit')
-
-            console.log('this is the user', user._id)
-            io.to(user._id).emit('you got liked', currUserLogin.owner.fullName);
-        })
-
+            io.to(user._id).emit('friend like sent', currUserLogin.owner.fullName);
+        });
 
     });
-
-    // io.on('friend req', function (socket) {
-
-    // })
-
-
 }
 
 
