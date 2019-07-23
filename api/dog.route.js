@@ -79,7 +79,7 @@ router.post('/add', requireAuth, (req, res) => {
 
 router.put('/sendFriendReq', requireAuth, (req, res) => {
     const dogId = req.body.dogId;
-    const user = req.body.user[0]
+    const user = req.body.user
     dogService.updateFriendReq(user, dogId)
         .then(dogId => res.json(dogId))
         .catch(() => {
@@ -90,7 +90,7 @@ router.put('/sendFriendReq', requireAuth, (req, res) => {
 //add like
 router.put('/addLike', requireAuth, (req, res) => {
     const dogId = req.body.dogId;
-    const user = req.body.user[0]
+    const user = req.body.user
     dogService.updateLikes(user, dogId)
         .then(dogId => res.json(dogId))
         .catch(() => {
@@ -104,7 +104,7 @@ router.put('/addLike', requireAuth, (req, res) => {
 
 router.put('/makeFriendship', requireAuth, (req, res) => {
     const dog = req.body.dog;
-    const user = req.body.user[0];
+    const user = req.body.user
     dogService.makeFriendShip(user, dog)
         .then(dog => res.json(dog))
         .catch(() => {
@@ -116,7 +116,7 @@ router.put('/makeFriendship', requireAuth, (req, res) => {
 
 router.put('/rejectFriendship', requireAuth, (req, res) => {
     const dog = req.body.dog;
-    const user = req.body.user[0];
+    const user = req.body.user
     dogService.rejectFriendShip(user, dog)
         .then(dog => res.json(dog))
         .catch(() => {
@@ -128,7 +128,7 @@ router.put('/rejectFriendship', requireAuth, (req, res) => {
 
 router.put('/removeFriendship', requireAuth, (req, res) => {
     const dogId = req.body.dogId;
-    const user = req.body.user[0];
+    const user = req.body.user
     dogService.removeFriendShip(user, dogId)
         .then(dog => res.json(dog))
         .catch(() => {
