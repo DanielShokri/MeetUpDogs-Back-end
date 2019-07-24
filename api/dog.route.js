@@ -5,8 +5,8 @@ const router = express.Router()
 module.exports = router
 
 function requireAuth(req, res, next) {
-    // const user = req.session.loggedinUser
-    // if (!user) return res.status(401).send('Unauthenticated');
+    const user = req.session.loggedinUser
+    if (!user) return res.status(401).send('Unauthenticated');
     next();
 }
 
@@ -145,7 +145,7 @@ router.post('/', (req, res) => {
     const user = req.body;
     return dogService.logIn(user)
         .then(currUser => {
-            req.session.loggedinUser = currUser
+            req.session.loggedinUser = currUser[0]
             res.json(currUser)
         })
         .catch(err => {
@@ -166,7 +166,7 @@ router.post('/signup', (req, res) => {
 })
 
 //logout
-router.post('/logout', (req, res) => {
+router.post('/logout', requireAuth, (req, res) => {
     req.session.destroy();
     res.end()
 })
