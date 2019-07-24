@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
 
 
 // dog Single
-router.get('/:id', requireAuth, (req, res) => {
+router.get('/:id', (req, res) => {
     const dogId = req.params.id
     dogService.getById(dogId)
         .then(dog => res.json(dog))
