@@ -14,10 +14,10 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.199336b89cfcf9fef4aa580007927265.js"
+  "/precache-manifest.8436de51686eb9fb1790744fcf3e5226.js"
 );
 
-workbox.core.setCacheNameDetails({prefix: "world-dog"});
+workbox.core.setCacheNameDetails({prefix: "MeetHav"});
 
 /**
  * The workboxSW.precacheAndRoute() method efficiently caches and responds to
